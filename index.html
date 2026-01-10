@@ -261,8 +261,11 @@
             const urlParams = new URLSearchParams(window.location.search);
             const encodedData = urlParams.get('data');
             
+            console.log('Raw URL:', window.location.href);
+            console.log('Encoded data param:', encodedData ? encodedData.substring(0, 100) + '...' : 'null');
+            
             if (!encodedData) {
-                showError('No Data Found', 'This page requires a valid QR code scan to display skid information.');
+                showError('No Data Found', 'This page requires a valid QR code scan to display skid information. No "data" parameter found in URL.');
                 return null;
             }
             
@@ -275,12 +278,22 @@
                 while (base64.length % 4) {
                     base64 += '=';
                 }
+                console.log('Base64 after conversion (first 100 chars):', base64.substring(0, 100));
+                
                 // Decode base64 and parse JSON
-                const jsonStr = decodeURIComponent(escape(atob(base64)));
-                return JSON.parse(jsonStr);
+                const decoded = atob(base64);
+                console.log('Decoded string (first 200 chars):', decoded.substring(0, 200));
+                
+                const jsonStr = decodeURIComponent(escape(decoded));
+                console.log('JSON string (first 200 chars):', jsonStr.substring(0, 200));
+                
+                const data = JSON.parse(jsonStr);
+                console.log('Parsed data:', data);
+                return data;
             } catch (e) {
                 console.error('Decode error:', e);
-                showError('Invalid Data', 'The QR code data could not be read. Error: ' + e.message);
+                console.error('encodedData length:', encodedData.length);
+                showError('Invalid Data', 'The QR code data could not be read. Error: ' + e.message + '. Data length: ' + encodedData.length);
                 return null;
             }
         }
