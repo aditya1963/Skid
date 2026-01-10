@@ -267,12 +267,20 @@
             }
             
             try {
+                // Convert URL-safe base64 back to standard base64
+                let base64 = encodedData
+                    .replace(/-/g, '+')
+                    .replace(/_/g, '/');
+                // Add padding if needed
+                while (base64.length % 4) {
+                    base64 += '=';
+                }
                 // Decode base64 and parse JSON
-                const jsonStr = decodeURIComponent(escape(atob(encodedData)));
+                const jsonStr = decodeURIComponent(escape(atob(base64)));
                 return JSON.parse(jsonStr);
             } catch (e) {
                 console.error('Decode error:', e);
-                showError('Invalid Data', 'The QR code data could not be read. Please try scanning again.');
+                showError('Invalid Data', 'The QR code data could not be read. Error: ' + e.message);
                 return null;
             }
         }
