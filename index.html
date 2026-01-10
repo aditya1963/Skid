@@ -1,43 +1,162 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>QR Content Viewer</title>
-<style>
-
-        body { font-family: -apple-system, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background-color: #f4f4f9; }
-
-        .container { background: white; padding: 2rem; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 80%; max-width: 400px; text-align: center; }
-
-        h1 { color: #333; font-size: 1.2rem; margin-bottom: 1rem; border-bottom: 2px solid #eee; padding-bottom: 10px; }
-
-        #display-text { font-size: 1.5rem; color: #007AFF; font-weight: bold; word-wrap: break-word; }
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>QR Code Reader</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 24px; }
+    h1 { margin-bottom: 8px; }
+    .row { display: flex; gap: 16px; flex-wrap: wrap; align-items: flex-start; }
+    .card { border: 1px solid #ddd; border-radius: 10px; padding: 16px; max-width: 560px; }
+    video { width: 100%; max-width: 520px; border-radius: 10px; background: #000; }
+    button { padding: 10px 14px; border-radius: 8px; border: 1px solid #333; cursor: pointer; }
+    button:disabled { opacity: 0.5; cursor: not-allowed; }
+    .out { white-space: pre-wrap; background: #f7f7f7; padding: 12px; border-radius: 8px; border: 1px solid #eee; }
+    .small { color: #555; font-size: 0.95em; }
+    .warn { color: #b00020; }
+  </style>
 </head>
 <body>
-<div class="container">
-<h1>Scanned Information</h1>
-<div id="display-text">No data found</div>
-</div>
-<script>
+  <h1>QR Code Reader</h1>
+  <p class="small">
+    Click <b>Start Camera</b>, point at a QR code, and the decoded text will appear below.
+  </p>
 
-    // 1. Get the URL parameters
+  <div class="row">
+    <div class="card">
+      <h2>Camera</h2>
+      <video id="video" playsinline></video>
+      <p class="small" id="status">Status: idle</p>
 
-    const urlParams = new URLSearchParams(window.location.search);
+      <div style="display:flex; gap:10px; flex-wrap:wrap;">
+        <button id="startBtn">Start Camera</button>
+        <button id="stopBtn" disabled>Stop</button>
+        <button id="copyBtn" disabled>Copy Result</button>
+      </div>
 
-    // 2. Look for the "data" part of the link
+      <p class="small warn" id="error"></p>
+    </div>
 
-    const scannedData = urlParams.get('data');
+    <div class="card">
+      <h2>Decoded Text</h2>
+      <div class="out" id="result">(none yet)</div>
+      <p class="small">
+        Tip: If you want to open URLs, copy/paste into the browser or add your own “Open Link” logic.
+      </p>
+    </div>
+  </div>
 
-    // 3. If it exists, show it on the screen
+  <!-- QR decoding library (jsQR) -->
+  <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
 
-    if (scannedData) {
+  <script>
+    const video = document.getElementById("video");
+    const statusEl = document.getElementById("status");
+    const errorEl = document.getElementById("error");
+    const resultEl = document.getElementById("result");
 
-        document.getElementById('display-text').innerText = decodeURIComponent(scannedData);
+    const startBtn = document.getElementById("startBtn");
+    const stopBtn = document.getElementById("stopBtn");
+    const copyBtn = document.getElementById("copyBtn");
 
+    let stream = null;
+    let rafId = null;
+
+    // Offscreen canvas for grabbing frames
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d", { willReadFrequently: true });
+
+    function setStatus(msg) { statusEl.textContent = "Status: " + msg; }
+    function setError(msg) { errorEl.textContent = msg || ""; }
+
+    async function startCamera() {
+      setError("");
+      setStatus("requesting camera permission...");
+
+      try {
+        stream = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: "environment" }, // back camera on mobile if available
+          audio: false
+        });
+
+        video.srcObject = stream;
+        await video.play();
+
+        startBtn.disabled = true;
+        stopBtn.disabled = false;
+
+        setStatus("scanning...");
+        scanLoop();
+      } catch (err) {
+        setStatus("idle");
+        setError("Camera error: " + (err?.message || err));
+      }
     }
-</script>
+
+    function stopCamera() {
+      if (rafId) cancelAnimationFrame(rafId);
+      rafId = null;
+
+      if (stream) {
+        stream.getTracks().forEach(t => t.stop());
+        stream = null;
+      }
+      video.srcObject = null;
+
+      startBtn.disabled = false;
+      stopBtn.disabled = true;
+      setStatus("stopped");
+    }
+
+    function scanLoop() {
+      if (!video.videoWidth || !video.videoHeight) {
+        rafId = requestAnimationFrame(scanLoop);
+        return;
+      }
+
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+
+      const code = jsQR(imageData.data, imageData.width, imageData.height, {
+        inversionAttempts: "dontInvert",
+      });
+
+      if (code?.data) {
+        resultEl.textContent = code.data;
+        copyBtn.disabled = false;
+        setStatus("found QR! (still scanning)");
+        // If you want to stop after the first scan, uncomment:
+        // stopCamera();
+        // setStatus("done");
+      } else {
+        setStatus("scanning...");
+      }
+
+      rafId = requestAnimationFrame(scanLoop);
+    }
+
+    async function copyResult() {
+      const text = resultEl.textContent;
+      if (!text || text === "(none yet)") return;
+      try {
+        await navigator.clipboard.writeText(text);
+        setStatus("copied to clipboard");
+        setTimeout(() => setStatus("scanning..."), 800);
+      } catch (err) {
+        setError("Copy failed: " + (err?.message || err));
+      }
+    }
+
+    startBtn.addEventListener("click", startCamera);
+    stopBtn.addEventListener("click", stopCamera);
+    copyBtn.addEventListener("click", copyResult);
+
+    // Safety: stop camera when leaving the page
+    window.addEventListener("beforeunload", stopCamera);
+  </script>
 </body>
 </html>
- 
