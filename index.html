@@ -1,20 +1,43 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>My QR Info</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QR Content Viewer</title>
 <style>
 
-        body { font-family: sans-serif; text-align: center; padding: 50px; }
+        body { font-family: -apple-system, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background-color: #f4f4f9; }
 
-        .card { border: 1px solid #ccc; padding: 20px; border-radius: 10px; }
+        .container { background: white; padding: 2rem; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 80%; max-width: 400px; text-align: center; }
+
+        h1 { color: #333; font-size: 1.2rem; margin-bottom: 1rem; border-bottom: 2px solid #eee; padding-bottom: 10px; }
+
+        #display-text { font-size: 1.5rem; color: #007AFF; font-weight: bold; word-wrap: break-word; }
 </style>
 </head>
 <body>
-<div class="card">
-<h1>Welcome!</h1>
-<p>This is the information stored behind the QR code.</p>
-<p><strong>Your Info:</strong> Put whatever you want people to see here.</p>
+<div class="container">
+<h1>Scanned Information</h1>
+<div id="display-text">No data found</div>
 </div>
+<script>
+
+    // 1. Get the URL parameters
+
+    const urlParams = new URLSearchParams(window.location.search);
+
+    // 2. Look for the "data" part of the link
+
+    const scannedData = urlParams.get('data');
+
+    // 3. If it exists, show it on the screen
+
+    if (scannedData) {
+
+        document.getElementById('display-text').innerText = decodeURIComponent(scannedData);
+
+    }
+</script>
 </body>
 </html>
  
