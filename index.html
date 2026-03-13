@@ -10,39 +10,39 @@
             margin: 0;
             padding: 0;
         }
-        
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            font-family: Arial, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             padding: 20px;
         }
-        
+
         .container {
-            max-width: 600px;
+            max-width: 900px;
             margin: 0 auto;
             background: white;
             border-radius: 16px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
             overflow: hidden;
         }
-        
+
         .header {
             background: #1e293b;
             color: white;
             padding: 24px;
             text-align: center;
         }
-        
+
         .header h1 {
             font-size: 24px;
             font-weight: 700;
             margin-bottom: 8px;
         }
-        
+
         .header .company {
             font-size: 14px;
-            opacity: 0.8;
+            opacity: 0.85;
         }
 
         .action-bar {
@@ -56,7 +56,6 @@
         }
 
         .action-btn {
-            appearance: none;
             border: none;
             background: #1e293b;
             color: white;
@@ -65,12 +64,6 @@
             font-size: 14px;
             font-weight: 600;
             cursor: pointer;
-            transition: transform 0.15s ease, opacity 0.15s ease, background 0.15s ease;
-        }
-
-        .action-btn:hover {
-            transform: translateY(-1px);
-            opacity: 0.95;
         }
 
         .action-btn.secondary {
@@ -85,14 +78,18 @@
             font-weight: 600;
             display: none;
         }
-        
+
+        .screen-view {
+            display: block;
+        }
+
         .skid-id {
             background: #f8fafc;
             padding: 20px;
             text-align: center;
             border-bottom: 1px solid #e2e8f0;
         }
-        
+
         .skid-id-value {
             font-family: "Courier New", monospace;
             font-size: 28px;
@@ -104,24 +101,24 @@
             border: 2px solid #1e293b;
             display: inline-block;
         }
-        
+
         .info-section {
             padding: 20px;
             border-bottom: 1px solid #e2e8f0;
         }
-        
+
         .info-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 16px;
         }
-        
+
         .info-item {
             background: #f8fafc;
             padding: 12px;
             border-radius: 8px;
         }
-        
+
         .info-label {
             font-size: 11px;
             text-transform: uppercase;
@@ -129,30 +126,30 @@
             font-weight: 600;
             margin-bottom: 4px;
         }
-        
+
         .info-value {
             font-size: 16px;
             color: #1e293b;
             font-weight: 500;
         }
-        
+
         .parts-section {
             padding: 20px;
         }
-        
+
         .parts-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 16px;
         }
-        
+
         .parts-title {
             font-size: 18px;
             font-weight: 600;
             color: #1e293b;
         }
-        
+
         .parts-count {
             background: #6366f1;
             color: white;
@@ -161,13 +158,13 @@
             font-size: 14px;
             font-weight: 600;
         }
-        
+
         .parts-list {
             background: #f8fafc;
             border-radius: 8px;
             overflow: hidden;
         }
-        
+
         .part-item {
             padding: 14px 16px;
             border-bottom: 1px solid #e2e8f0;
@@ -175,11 +172,11 @@
             align-items: flex-start;
             gap: 12px;
         }
-        
+
         .part-item:last-child {
             border-bottom: none;
         }
-        
+
         .part-number-badge {
             background: #1e293b;
             color: white;
@@ -193,23 +190,23 @@
             font-weight: 600;
             flex-shrink: 0;
         }
-        
+
         .part-details {
             flex: 1;
         }
-        
+
         .part-name {
             font-weight: 600;
             color: #1e293b;
             font-size: 15px;
             margin-bottom: 4px;
         }
-        
+
         .part-desc {
             font-size: 13px;
             color: #64748b;
         }
-        
+
         .part-qty {
             background: #dbeafe;
             color: #1d4ed8;
@@ -219,46 +216,24 @@
             font-weight: 600;
             white-space: nowrap;
         }
-        
+
         .footer {
             background: #f8fafc;
             padding: 16px;
             text-align: center;
             border-top: 1px solid #e2e8f0;
         }
-        
+
         .footer-text {
             font-size: 12px;
             color: #64748b;
         }
-        
-        .error-container {
-            padding: 60px 20px;
-            text-align: center;
-        }
-        
-        .error-icon {
-            font-size: 48px;
-            margin-bottom: 16px;
-        }
-        
-        .error-title {
-            font-size: 20px;
-            font-weight: 600;
-            color: #1e293b;
-            margin-bottom: 8px;
-        }
-        
-        .error-message {
-            color: #64748b;
-            font-size: 14px;
-        }
-        
+
         .loading {
             padding: 60px 20px;
             text-align: center;
         }
-        
+
         .loading-spinner {
             width: 40px;
             height: 40px;
@@ -268,23 +243,180 @@
             animation: spin 1s linear infinite;
             margin: 0 auto 16px;
         }
-        
+
+        .error-container {
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .error-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+
+        .error-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 8px;
+        }
+
+        .error-message {
+            color: #64748b;
+            font-size: 14px;
+        }
+
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
-        
-        @media (max-width: 480px) {
+
+        /* PRINT LAYOUT */
+        .print-sheet {
+            display: none;
+        }
+
+        .print-sheet-inner {
+            width: 210mm;
+            min-height: 297mm;
+            margin: 0 auto;
+            background: white;
+            color: #000;
+            padding: 8mm;
+            font-family: Arial, sans-serif;
+        }
+
+        .print-topline {
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            margin-bottom: 6px;
+        }
+
+        .print-title {
+            border: 2px solid #000;
+            text-align: center;
+            font-size: 24px;
+            font-weight: 700;
+            padding: 8px 0;
+            margin-bottom: 2px;
+        }
+
+        .print-block {
+            border: 1px solid #000;
+            border-top: none;
+        }
+
+        .print-header-grid {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+        }
+
+        .print-header-grid td {
+            border: 1px solid #000;
+            padding: 6px 8px;
+            vertical-align: top;
+            font-size: 12px;
+            height: 30px;
+        }
+
+        .print-header-grid .logo-cell {
+            width: 30%;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .print-header-grid .barcode-cell {
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .print-label {
+            font-size: 10px;
+            font-weight: 700;
+            display: block;
+            margin-bottom: 3px;
+        }
+
+        .print-value {
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .print-value-small {
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .barcode-box {
+            width: 100%;
+            height: 42px;
+            background:
+                repeating-linear-gradient(
+                    to right,
+                    #000 0px, #000 2px,
+                    #fff 2px, #fff 4px,
+                    #000 4px, #000 5px,
+                    #fff 5px, #fff 7px,
+                    #000 7px, #000 10px,
+                    #fff 10px, #fff 12px
+                );
+            margin: 0 auto 4px auto;
+        }
+
+        .barcode-text {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+        }
+
+        .print-parts-table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+        }
+
+        .print-parts-table th,
+        .print-parts-table td {
+            border: 1px solid #000;
+            padding: 4px 6px;
+            font-size: 12px;
+            height: 24px;
+        }
+
+        .print-parts-table th {
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .print-center {
+            text-align: center;
+        }
+
+        .print-footer {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+        }
+
+        .print-footer td {
+            border: 1px solid #000;
+            padding: 4px 8px;
+            font-size: 11px;
+            height: 24px;
+        }
+
+        .muted-lines td {
+            height: 20px;
+        }
+
+        @media (max-width: 640px) {
             body {
                 padding: 10px;
             }
-            
+
             .info-grid {
                 grid-template-columns: 1fr;
-            }
-            
-            .skid-id-value {
-                font-size: 22px;
-                padding: 10px 16px;
             }
 
             .action-bar {
@@ -297,6 +429,11 @@
         }
 
         @media print {
+            @page {
+                size: A4 portrait;
+                margin: 8mm;
+            }
+
             body {
                 background: white;
                 padding: 0;
@@ -306,10 +443,24 @@
                 box-shadow: none;
                 border-radius: 0;
                 max-width: 100%;
+                overflow: visible;
             }
 
-            .action-bar {
+            .header,
+            .action-bar,
+            .screen-view,
+            .footer {
                 display: none !important;
+            }
+
+            .print-sheet {
+                display: block !important;
+            }
+
+            .print-sheet-inner {
+                width: auto;
+                min-height: auto;
+                padding: 0;
             }
         }
     </style>
@@ -328,43 +479,27 @@
         function decodeData() {
             const urlParams = new URLSearchParams(window.location.search);
             const encodedData = urlParams.get('data');
-            
-            console.log('Raw URL:', window.location.href);
-            console.log('Encoded data param:', encodedData ? encodedData.substring(0, 100) + '...' : 'null');
-            
+
             if (!encodedData) {
-                showError('No Data Found', 'This page requires a valid QR code scan to display skid information. No "data" parameter found in URL.');
+                showError('No Data Found', 'This page requires a valid QR code scan to display skid information.');
                 return null;
             }
-            
-            try {
-                let base64 = encodedData
-                    .replace(/-/g, '+')
-                    .replace(/_/g, '/');
 
+            try {
+                let base64 = encodedData.replace(/-/g, '+').replace(/_/g, '/');
                 while (base64.length % 4) {
                     base64 += '=';
                 }
 
-                console.log('Base64 after conversion (first 100 chars):', base64.substring(0, 100));
-                
                 const decoded = atob(base64);
-                console.log('Decoded string (first 200 chars):', decoded.substring(0, 200));
-                
                 const jsonStr = decodeURIComponent(escape(decoded));
-                console.log('JSON string (first 200 chars):', jsonStr.substring(0, 200));
-                
-                const data = JSON.parse(jsonStr);
-                console.log('Parsed data:', data);
-                return data;
+                return JSON.parse(jsonStr);
             } catch (e) {
-                console.error('Decode error:', e);
-                console.error('encodedData length:', encodedData.length);
-                showError('Invalid Data', 'The QR code data could not be read. Error: ' + e.message + '. Data length: ' + encodedData.length);
+                showError('Invalid Data', 'The QR code data could not be read. Error: ' + e.message);
                 return null;
             }
         }
-        
+
         function showError(title, message) {
             document.getElementById('content').innerHTML = `
                 <div class="header">
@@ -373,115 +508,140 @@
                 </div>
                 <div class="error-container">
                     <div class="error-icon">⚠️</div>
-                    <div class="error-title">${title}</div>
-                    <div class="error-message">${message}</div>
-                </div>
-                <div class="footer">
-                    <div class="footer-text">SAI Advanced Power Solutions</div>
+                    <div class="error-title">${escapeHtml(title)}</div>
+                    <div class="error-message">${escapeHtml(message)}</div>
                 </div>
             `;
         }
 
-        function csvEscape(value) {
-            const str = String(value ?? '');
-            return `"${str.replace(/"/g, '""')}"`;
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text ?? '';
+            return div.innerHTML;
         }
 
-        function buildCSV(data) {
-            const skidId = data.s || '';
-            const date = data.d || '';
-            const from = data.f || '';
-            const to = data.t || '';
-            const jobNum = data.j || '';
-            const releaseNum = data.r || '';
+        function printPage() {
+            window.print();
+        }
+
+        function tsvEscape(value) {
+            return String(value ?? '').replace(/\r?\n/g, ' ').trim();
+        }
+
+        async function copyForExcel() {
+            if (!currentData) return;
+
+            const data = currentData;
             const parts = Array.isArray(data.p) ? data.p : [];
 
-            const header = [
+            const rows = [];
+            rows.push([
                 'Skid ID',
                 'Date',
                 'Ship From',
                 'Ship To',
                 'Job Number',
                 'Release Number',
+                'Serial Number',
                 'Part Number',
-                'Part Description',
+                'Description',
                 'Quantity'
-            ];
-
-            const rows = [header];
+            ]);
 
             if (parts.length === 0) {
                 rows.push([
-                    skidId,
-                    date,
-                    from,
-                    to,
-                    jobNum,
-                    releaseNum,
+                    data.s || '',
+                    data.d || '',
+                    data.f || '',
+                    data.t || '',
+                    data.j || '',
+                    data.r || '',
+                    '',
                     '',
                     '',
                     ''
                 ]);
             } else {
-                parts.forEach(part => {
+                parts.forEach((part, idx) => {
                     rows.push([
-                        skidId,
-                        date,
-                        from,
-                        to,
-                        jobNum,
-                        releaseNum,
+                        data.s || '',
+                        data.d || '',
+                        data.f || '',
+                        data.t || '',
+                        data.j || '',
+                        data.r || '',
+                        idx + 1,
                         part.n || '',
                         part.desc || '',
-                        part.q || 0
+                        part.q || ''
                     ]);
                 });
             }
 
-            return rows
-                .map(row => row.map(csvEscape).join(','))
+            const text = rows
+                .map(row => row.map(tsvEscape).join('\t'))
                 .join('\n');
-        }
 
-        async function copyCSV() {
-            if (!currentData) return;
-
-            const csvText = buildCSV(currentData);
             const statusEl = document.getElementById('copyStatus');
 
             try {
-                await navigator.clipboard.writeText(csvText);
-                if (statusEl) {
-                    statusEl.textContent = 'CSV copied to clipboard';
-                    statusEl.style.display = 'block';
-                    setTimeout(() => {
-                        statusEl.style.display = 'none';
-                    }, 2500);
-                }
+                await navigator.clipboard.writeText(text);
+                showCopyStatus('Copied for Excel paste');
             } catch (err) {
-                console.error('Clipboard copy failed:', err);
-
-                const textArea = document.createElement('textarea');
-                textArea.value = csvText;
-                document.body.appendChild(textArea);
-                textArea.select();
+                const ta = document.createElement('textarea');
+                ta.value = text;
+                document.body.appendChild(ta);
+                ta.select();
                 document.execCommand('copy');
-                document.body.removeChild(textArea);
+                ta.remove();
+                showCopyStatus('Copied for Excel paste');
+            }
 
-                if (statusEl) {
-                    statusEl.textContent = 'CSV copied to clipboard';
-                    statusEl.style.display = 'block';
-                    setTimeout(() => {
-                        statusEl.style.display = 'none';
-                    }, 2500);
-                }
+            function showCopyStatus(msg) {
+                if (!statusEl) return;
+                statusEl.textContent = msg;
+                statusEl.style.display = 'block';
+                setTimeout(() => statusEl.style.display = 'none', 2200);
             }
         }
 
-        function printPage() {
-            window.print();
+        function buildScreenParts(parts) {
+            if (!parts.length) {
+                return '<div class="part-item"><div class="part-details"><div class="part-name">No parts listed</div></div></div>';
+            }
+
+            return parts.map((part, idx) => `
+                <div class="part-item">
+                    <div class="part-number-badge">${idx + 1}</div>
+                    <div class="part-details">
+                        <div class="part-name">${escapeHtml(part.n || 'Unknown Part')}</div>
+                        ${(part.desc ? `<div class="part-desc">${escapeHtml(part.desc)}</div>` : '')}
+                    </div>
+                    <div class="part-qty">Qty: ${escapeHtml(String(part.q || 0))}</div>
+                </div>
+            `).join('');
         }
-        
+
+        function buildPrintRows(parts) {
+            const maxRows = 14;
+            let html = '';
+
+            for (let i = 0; i < maxRows; i++) {
+                const part = parts[i];
+                html += `
+                    <tr>
+                        <td class="print-center">${part ? i + 1 : ''}</td>
+                        <td>${part ? escapeHtml(part.n || '') : ''}</td>
+                        <td>${part ? escapeHtml(part.desc || '') : ''}</td>
+                        <td></td>
+                        <td class="print-center">${part ? escapeHtml(String(part.q || '')) : ''}</td>
+                    </tr>
+                `;
+            }
+
+            return html;
+        }
+
         function renderSkidInfo(data) {
             currentData = data;
 
@@ -491,26 +651,14 @@
             const to = data.t || '-';
             const jobNum = data.j || '';
             const releaseNum = data.r || '';
-            const parts = data.p || [];
-            
-            let partsHTML = '';
-            parts.forEach((part, idx) => {
-                const partName = part.n || 'Unknown Part';
-                const qty = part.q || 0;
-                const desc = part.desc || '';
-                
-                partsHTML += `
-                    <div class="part-item">
-                        <div class="part-number-badge">${idx + 1}</div>
-                        <div class="part-details">
-                            <div class="part-name">${escapeHtml(partName)}</div>
-                            ${desc ? `<div class="part-desc">${escapeHtml(desc)}</div>` : ''}
-                        </div>
-                        <div class="part-qty">Qty: ${escapeHtml(String(qty))}</div>
-                    </div>
-                `;
-            });
-            
+            const createdBy = data.c || 'PUBLIC';
+            const totalSkids = data.ts || '';
+            const packingSlip = data.ps || '';
+            const vendor = data.v || '';
+            const po = data.po || '';
+            const paintSpec = data.paint || '';
+            const parts = Array.isArray(data.p) ? data.p : [];
+
             let infoHTML = `
                 <div class="info-item">
                     <div class="info-label">Date</div>
@@ -525,7 +673,7 @@
                     <div class="info-value">${escapeHtml(to)}</div>
                 </div>
             `;
-            
+
             if (jobNum) {
                 infoHTML += `
                     <div class="info-item">
@@ -534,7 +682,7 @@
                     </div>
                 `;
             }
-            
+
             if (releaseNum) {
                 infoHTML += `
                     <div class="info-item">
@@ -543,7 +691,7 @@
                     </div>
                 `;
             }
-            
+
             document.getElementById('content').innerHTML = `
                 <div class="header">
                     <div class="company">SAI Advanced Power Solutions</div>
@@ -552,27 +700,103 @@
 
                 <div class="action-bar">
                     <button class="action-btn" onclick="printPage()">Print Page</button>
-                    <button class="action-btn secondary" onclick="copyCSV()">Copy Info as CSV</button>
+                    <button class="action-btn secondary" onclick="copyForExcel()">Copy for Excel</button>
                     <div class="copy-status" id="copyStatus"></div>
                 </div>
 
-                <div class="skid-id">
-                    <div class="skid-id-value">${escapeHtml(skidId)}</div>
-                </div>
+                <div class="screen-view">
+                    <div class="skid-id">
+                        <div class="skid-id-value">${escapeHtml(skidId)}</div>
+                    </div>
 
-                <div class="info-section">
-                    <div class="info-grid">
-                        ${infoHTML}
+                    <div class="info-section">
+                        <div class="info-grid">
+                            ${infoHTML}
+                        </div>
+                    </div>
+
+                    <div class="parts-section">
+                        <div class="parts-header">
+                            <div class="parts-title">Parts List</div>
+                            <div class="parts-count">${parts.length} items</div>
+                        </div>
+                        <div class="parts-list">
+                            ${buildScreenParts(parts)}
+                        </div>
                     </div>
                 </div>
 
-                <div class="parts-section">
-                    <div class="parts-header">
-                        <div class="parts-title">Parts List</div>
-                        <div class="parts-count">${parts.length} items</div>
-                    </div>
-                    <div class="parts-list">
-                        ${partsHTML || '<div class="part-item"><div class="part-details"><div class="part-name">No parts listed</div></div></div>'}
+                <div class="print-sheet">
+                    <div class="print-sheet-inner">
+                        <div class="print-topline">
+                            <div>${new Date().toLocaleDateString()} , ${new Date().toLocaleTimeString()}</div>
+                            <div>Skid Slip - ${escapeHtml(skidId)}</div>
+                        </div>
+
+                        <div class="print-title">SKID SLIP</div>
+
+                        <table class="print-header-grid">
+                            <tr>
+                                <td class="logo-cell">
+                                    <div style="font-size:18px; font-weight:700;">SAI</div>
+                                    <div style="font-size:12px;">Advanced Power Solutions</div>
+                                </td>
+                                <td style="width:28%;">
+                                    <span class="print-label">DATE OF SHIPMENT:</span>
+                                    <div class="print-value">${escapeHtml(date)}</div>
+                                </td>
+                                <td class="barcode-cell">
+                                    <div class="barcode-box"></div>
+                                    <div class="barcode-text">${escapeHtml(skidId)}</div>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <table class="print-header-grid">
+                            <tr>
+                                <td><span class="print-label">VENDOR:</span><div class="print-value-small">${escapeHtml(vendor)}</div></td>
+                                <td><span class="print-label">PO #:</span><div class="print-value-small">${escapeHtml(po)}</div></td>
+                                <td><span class="print-label">PAINT SPEC.:</span><div class="print-value-small">${escapeHtml(paintSpec)}</div></td>
+                            </tr>
+                            <tr>
+                                <td><span class="print-label">SHIP TO:</span><div class="print-value-small">${escapeHtml(to)}</div></td>
+                                <td><span class="print-label">SHIP FROM:</span><div class="print-value-small">${escapeHtml(from)}</div></td>
+                                <td><span class="print-label">SHIP DESTINATION:</span><div class="print-value-small">${escapeHtml(to)}</div></td>
+                            </tr>
+                            <tr>
+                                <td><span class="print-label">JOB #:</span><div class="print-value-small">${escapeHtml(jobNum)}</div></td>
+                                <td><span class="print-label">RELEASE:</span><div class="print-value-small">${escapeHtml(releaseNum)}</div></td>
+                                <td><span class="print-label">CREATED BY:</span><div class="print-value-small">${escapeHtml(createdBy)}</div></td>
+                            </tr>
+                            <tr>
+                                <td><span class="print-label">SKID#:</span><div class="print-value-small">${escapeHtml(skidId)}</div></td>
+                                <td><span class="print-label">TOTAL SKIDS:</span><div class="print-value-small">${escapeHtml(totalSkids)}</div></td>
+                                <td><span class="print-label">PACKING SLIP #:</span><div class="print-value-small">${escapeHtml(packingSlip)}</div></td>
+                            </tr>
+                        </table>
+
+                        <table class="print-parts-table">
+                            <thead>
+                                <tr>
+                                    <th style="width:10%;">SERIAL NUMBER</th>
+                                    <th style="width:25%;">PART NUMBER (P/N#)</th>
+                                    <th style="width:36%;">DESCRIPTION</th>
+                                    <th style="width:15%;">COMMENTS</th>
+                                    <th style="width:14%;">QUANTITY (QTY)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${buildPrintRows(parts)}
+                            </tbody>
+                        </table>
+
+                        <table class="print-footer">
+                            <tr>
+                                <td style="width:40%;">Created by: ${escapeHtml(createdBy)}</td>
+                                <td style="width:20%; text-align:center;">PAGE: 1 of 1</td>
+                                <td style="width:40%; text-align:right;">Vendor Quality Check: &nbsp; Yes [ ] &nbsp;&nbsp; No [ ]</td>
+                            </tr>
+                        </table>
                     </div>
                 </div>
 
@@ -581,13 +805,7 @@
                 </div>
             `;
         }
-        
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
-        
+
         document.addEventListener('DOMContentLoaded', function() {
             const data = decodeData();
             if (data) {
