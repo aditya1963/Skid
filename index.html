@@ -44,6 +44,47 @@
             font-size: 14px;
             opacity: 0.8;
         }
+
+        .action-bar {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+            padding: 18px 20px;
+            background: #f8fafc;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .action-btn {
+            appearance: none;
+            border: none;
+            background: #1e293b;
+            color: white;
+            padding: 10px 16px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.15s ease, opacity 0.15s ease, background 0.15s ease;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-1px);
+            opacity: 0.95;
+        }
+
+        .action-btn.secondary {
+            background: #6366f1;
+        }
+
+        .copy-status {
+            width: 100%;
+            text-align: center;
+            font-size: 13px;
+            color: #16a34a;
+            font-weight: 600;
+            display: none;
+        }
         
         .skid-id {
             background: #f8fafc;
@@ -245,6 +286,31 @@
                 font-size: 22px;
                 padding: 10px 16px;
             }
+
+            .action-bar {
+                flex-direction: column;
+            }
+
+            .action-btn {
+                width: 100%;
+            }
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+
+            .container {
+                box-shadow: none;
+                border-radius: 0;
+                max-width: 100%;
+            }
+
+            .action-bar {
+                display: none !important;
+            }
         }
     </style>
 </head>
@@ -257,6 +323,8 @@
     </div>
 
     <script>
+        let currentData = null;
+
         function decodeData() {
             const urlParams = new URLSearchParams(window.location.search);
             const encodedData = urlParams.get('data');
@@ -270,17 +338,16 @@
             }
             
             try {
-                // Convert URL-safe base64 back to standard base64
                 let base64 = encodedData
                     .replace(/-/g, '+')
                     .replace(/_/g, '/');
-                // Add padding if needed
+
                 while (base64.length % 4) {
                     base64 += '=';
                 }
+
                 console.log('Base64 after conversion (first 100 chars):', base64.substring(0, 100));
                 
-                // Decode base64 and parse JSON
                 const decoded = atob(base64);
                 console.log('Decoded string (first 200 chars):', decoded.substring(0, 200));
                 
@@ -314,9 +381,110 @@
                 </div>
             `;
         }
+
+        function csvEscape(value) {
+            const str = String(value ?? '');
+            return `"${str.replace(/"/g, '""')}"`;
+        }
+
+        function buildCSV(data) {
+            const skidId = data.s || '';
+            const date = data.d || '';
+            const from = data.f || '';
+            const to = data.t || '';
+            const jobNum = data.j || '';
+            const releaseNum = data.r || '';
+            const parts = Array.isArray(data.p) ? data.p : [];
+
+            const header = [
+                'Skid ID',
+                'Date',
+                'Ship From',
+                'Ship To',
+                'Job Number',
+                'Release Number',
+                'Part Number',
+                'Part Description',
+                'Quantity'
+            ];
+
+            const rows = [header];
+
+            if (parts.length === 0) {
+                rows.push([
+                    skidId,
+                    date,
+                    from,
+                    to,
+                    jobNum,
+                    releaseNum,
+                    '',
+                    '',
+                    ''
+                ]);
+            } else {
+                parts.forEach(part => {
+                    rows.push([
+                        skidId,
+                        date,
+                        from,
+                        to,
+                        jobNum,
+                        releaseNum,
+                        part.n || '',
+                        part.desc || '',
+                        part.q || 0
+                    ]);
+                });
+            }
+
+            return rows
+                .map(row => row.map(csvEscape).join(','))
+                .join('\n');
+        }
+
+        async function copyCSV() {
+            if (!currentData) return;
+
+            const csvText = buildCSV(currentData);
+            const statusEl = document.getElementById('copyStatus');
+
+            try {
+                await navigator.clipboard.writeText(csvText);
+                if (statusEl) {
+                    statusEl.textContent = 'CSV copied to clipboard';
+                    statusEl.style.display = 'block';
+                    setTimeout(() => {
+                        statusEl.style.display = 'none';
+                    }, 2500);
+                }
+            } catch (err) {
+                console.error('Clipboard copy failed:', err);
+
+                const textArea = document.createElement('textarea');
+                textArea.value = csvText;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+
+                if (statusEl) {
+                    statusEl.textContent = 'CSV copied to clipboard';
+                    statusEl.style.display = 'block';
+                    setTimeout(() => {
+                        statusEl.style.display = 'none';
+                    }, 2500);
+                }
+            }
+        }
+
+        function printPage() {
+            window.print();
+        }
         
         function renderSkidInfo(data) {
-            // s=skidId, d=date, f=from, t=to, j=job, r=release, p=parts
+            currentData = data;
+
             const skidId = data.s || 'Unknown';
             const date = data.d || '-';
             const from = data.f || '-';
@@ -338,7 +506,7 @@
                             <div class="part-name">${escapeHtml(partName)}</div>
                             ${desc ? `<div class="part-desc">${escapeHtml(desc)}</div>` : ''}
                         </div>
-                        <div class="part-qty">Qty: ${qty}</div>
+                        <div class="part-qty">Qty: ${escapeHtml(String(qty))}</div>
                     </div>
                 `;
             });
@@ -381,14 +549,23 @@
                     <div class="company">SAI Advanced Power Solutions</div>
                     <h1>Skid Parts List</h1>
                 </div>
+
+                <div class="action-bar">
+                    <button class="action-btn" onclick="printPage()">Print Page</button>
+                    <button class="action-btn secondary" onclick="copyCSV()">Copy Info as CSV</button>
+                    <div class="copy-status" id="copyStatus"></div>
+                </div>
+
                 <div class="skid-id">
                     <div class="skid-id-value">${escapeHtml(skidId)}</div>
                 </div>
+
                 <div class="info-section">
                     <div class="info-grid">
                         ${infoHTML}
                     </div>
                 </div>
+
                 <div class="parts-section">
                     <div class="parts-header">
                         <div class="parts-title">Parts List</div>
@@ -398,6 +575,7 @@
                         ${partsHTML || '<div class="part-item"><div class="part-details"><div class="part-name">No parts listed</div></div></div>'}
                     </div>
                 </div>
+
                 <div class="footer">
                     <div class="footer-text">Scanned from QR Code • SAI Advanced Power Solutions</div>
                 </div>
@@ -410,7 +588,6 @@
             return div.innerHTML;
         }
         
-        // Initialize
         document.addEventListener('DOMContentLoaded', function() {
             const data = decodeData();
             if (data) {
